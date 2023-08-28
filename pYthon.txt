@@ -1,0 +1,588 @@
+1. Python GUI windows
+-----------------------------------
+
+from tkinter import *
+
+window = Tk() #instantiate an instance of a window
+window.geometry("420x420")
+window.title("Bro Code first GUI program")
+
+icon = PhotoImage(file='logo.png')
+window.iconphoto(True,icon)
+window.config(background="#5cfcff")
+
+window.mainloop() #place window on computer screen, listen for events
+
+********************************************************************************
+
+2. Lables in Pyhton
+--------------------------------------------
+
+from tkinter import *
+
+# label = an area widget that holds text and/or an image within a window
+
+window = Tk()
+
+photo = PhotoImage(file='person.png')
+
+label = Label(window,
+              text="bro, do you even code?",
+              font=('Arial',40,'bold'),
+              fg='#00FF00',
+              bg='black',
+              relief=RAISED,
+              bd=10,
+              padx=20,
+              pady=20,
+              image=photo,
+              compound='bottom')
+label.pack()
+#label.place(x=0,y=0)
+
+window.mainloop()
+
+***************************************************************************
+
+3.Buttons
+------------------------------------------------
+
+from tkinter import *
+
+# button = you click it, then it does stuff
+
+count = 0
+
+def click():
+    global count
+    count+=1
+    print(count)
+
+window = Tk()
+
+photo = PhotoImage(file='like.png')
+
+button = Button(window,
+                text="click me!",
+                command=click,
+                font=("Comic Sans",30),
+                fg="#00FF00",
+                bg="black",
+                activeforeground="#00FF00",
+                activebackground="black",
+                state=ACTIVE,
+                image=photo,
+                compound='bottom')
+button.pack()
+
+window.mainloop()
+
+*******************************************************************************
+4. Entry_Box
+-------------------------------------------------------------------
+
+
+from tkinter import *
+
+#entry widget = textbox that accepts a single line of user input
+
+def submit():
+    username = entry.get()
+    print("Hello "+username)
+
+def delete():
+    entry.delete(0,END)
+
+def backspace():
+    entry.delete(len(entry.get())-1, END)
+
+window = Tk()
+
+entry = Entry(window,
+              font=("Arial",50),
+              fg="#00FF00",
+              bg="black")
+
+#entry.insert(0,'Spongebob')
+#entry.config(show="*")
+#entry.config(state=DISABLED)
+
+entry.pack(side=LEFT)
+
+submit_button = Button(window,text="submit",command=submit)
+submit_button.pack(side=RIGHT)
+
+delete_button = Button(window,text="delete",command=delete)
+delete_button.pack(side=RIGHT)
+
+backspace_button = Button(window,text="backspace",command=backspace)
+backspace_button.pack(side=RIGHT)
+
+window.mainloop()
+
+*********************************************************************************
+
+5.CheckBox/CheckButton
+----------------------------------------------------------
+
+from tkinter import *
+
+def display():
+    if(x.get()==1):
+        print("You agree!")
+    else:
+        print("You don't agree :(")
+
+window = Tk()
+
+x = IntVar()
+
+python_photo = PhotoImage(file='Python.png')
+
+check_button = Checkbutton(window,
+                           text="I agree to something",
+                           variable=x,
+                           onvalue=1,
+                           offvalue=0,
+                           command=display,
+                           font=('Arial',20),
+                           fg='#00FF00',
+                           bg='black',
+                           activeforeground='#00FF00',
+                           activebackground='black',
+                           padx=25,
+                           pady=10,
+                           image=python_photo,
+                           compound='left')
+check_button.pack()
+
+
+window.mainloop()
+
+******************************************************************************************************
+
+6.RadioButtons
+-------------------------------------------------------------------------
+# radio button = similar to checkbox, but you can only select one from a group
+from tkinter import *
+
+food = ["pizza","hamburger","hotdog"]
+
+def order():
+    if(x.get()==0):
+        print("You ordered pizza!")
+    elif(x.get()==1):
+        print("You ordered a hamburger!")
+    elif(x.get()==2):
+        print("You ordered a hotdog!")
+    else:
+        print("huh?")
+
+window = Tk()
+
+pizzaImage = PhotoImage(file='pizza.png')
+hamburgerImage = PhotoImage(file='hamburger.png')
+hotdogImage = PhotoImage(file='hotdog.png')
+foodImages = [pizzaImage,hamburgerImage,hotdogImage]
+
+x = IntVar()
+
+for index in range(len(food)):
+    radiobutton = Radiobutton(window,
+                              text=food[index], #adds text to radio buttons
+                              variable=x, #groups radiobuttons together if they share the same variable
+                              value=index, #assigns each radiobutton a different value
+                              padx = 25, #adds padding on x-axis
+                              font=("Impact",50),
+                              image = foodImages[index], #adds image to radiobutton
+                              compound = 'left', #adds image & text (left-side)
+                              #indicatoron=0, #eliminate circle indicators
+                              #width = 375, #sets width of radio buttons
+                              command=order #set command of radiobutton to function
+                              )
+    radiobutton.pack(anchor=W)
+window.mainloop()
+
+
+**********************************************************************************************************
+
+6. Python GUI scale 🌡️
+-----------------------------------------------------------------------------------------------------
+from tkinter import *
+
+def submit():
+    print("The temperature is: "+ str(scale.get())+ " degrees C")
+
+window = Tk()
+
+hotImage = PhotoImage(file='hot.png')
+hotLabel = Label(image=hotImage)
+hotLabel.pack()
+
+scale = Scale(window,
+              from_=100,
+              to=0,
+              length=600,
+              orient=VERTICAL, #orientation of scale
+              font = ('Consolas',20),
+              tickinterval = 10, #adds numeric indicators for value
+              #showvalue = 0, #hide current value
+              resolution = 5, #increment of slider
+              troughcolor = '#69EAFF',
+              fg = '#FF1C00',
+              bg = '#111111'
+
+              )
+scale.set(((scale['from']-scale['to'])/2)+scale['to']) #set current value of slider
+
+scale.pack()
+
+coldImage = PhotoImage(file='cold.png')
+coldLabel = Label(image=coldImage)
+coldLabel.pack()
+
+button = Button(window,text='submit',command=submit)
+button.pack()
+
+window.mainloop()
+
+***************************************************************************************************************
+
+7. Python GUI listbox 📋
+--------------------------------------------------------------------------------------------------
+# listbox = A listing of selectable text items within it's own container
+
+def submit():
+
+    food = []
+
+    for index in listbox.curselection():
+        food.insert(index,listbox.get(index))
+
+    print("You have ordered: ")
+    for index in food:
+        print(index)
+
+def add():
+    listbox.insert(listbox.size(),entryBox.get())
+    listbox.config(height=listbox.size())
+
+def delete():
+    for index in reversed(listbox.curselection()):
+        listbox.delete(index)
+
+    listbox.config(height=listbox.size())
+
+from tkinter import *
+
+window = Tk()
+
+listbox = Listbox(window,
+                  bg="#f7ffde",
+                  font=("Constantia",35),
+                  width=12,
+                  selectmode=MULTIPLE)
+listbox.pack()
+
+listbox.insert(1,"pizza")
+listbox.insert(2,"pasta")
+listbox.insert(3,"garlic bread")
+listbox.insert(4,"soup")
+listbox.insert(5,"salad")
+
+listbox.config(height=listbox.size())
+
+entryBox = Entry(window)
+entryBox.pack()
+
+frame = Frame(window)
+frame.pack()
+
+submitButton = Button(frame,text="submit",command=submit)
+submitButton.pack(side=LEFT)
+
+addButton = Button(frame,text="add",command=add)
+addButton.pack(side=LEFT)
+
+deleteButton = Button(frame,text="delete",command=delete)
+deleteButton.pack(side=LEFT)
+
+window.mainloop()
+
+******************************************************************************************
+
+8. Python GUI messagebox 💭
+----------------------------------------------------------------------------------------------
+from tkinter import *
+from tkinter import messagebox #import messagebox library
+
+def click():
+    #messagebox.showinfo(title='This is an info message box',message='You are a person')
+    #messagebox.showwarning(title='WARNING!',message='You have A VIRUS!!!!')
+    #messagebox.showerror(title='ERROR!',message='something went wrong :(')
+
+    #if messagebox.askokcancel(title='ask ok cancel',message='Do you want to do the thing?'):
+        #print('You did a thing!')
+    #else:
+        #print('You canceled a thing! :(')
+
+    #if messagebox.askretrycancel(title='ask ok cancel',message='Do you want retry the thing?'):
+        #print('You retried a thing!')
+    #else:
+        #print('You canceled a thing! :(')
+
+    #if messagebox.askyesno(title='ask yes or no',message='Do you like cake?'):
+        #print('I like cake too :)')
+    #else:
+        #print('Why do you not like cake? :(')
+
+    #answer = messagebox.askquestion(title='ask question',message='Do you like pie?')
+    #if(answer == 'yes'):
+        #print('I like pie too :)')
+    #else:
+        #print('Why do you not like pie? :(')
+
+    #answer = messagebox.askyesnocancel(title=' Yes no cancel',message='Do you like to code?',icon='question')
+    #if(answer==True):
+        #print("You like to code :)")
+    #elif(answer==False):
+        #print("Then why are you watching a video on coding?")
+    #else:
+        #print("You have dodged the question ")
+
+window = Tk()
+
+button = Button(window,command=click,text='click me')
+button.pack()
+
+window.mainloop()
+
+****************************************************************************
+
+9.Python GUI colorchooser 🎨
+----------------------------------------------------------------
+from tkinter import *
+from tkinter import colorchooser
+
+def click():
+    color = colorchooser.askcolor() #assign color to a vraible
+    colorHex = color[1]         #assigns element at index 1 to a variable
+    window.config(bg=colorHex) #change background color
+
+window = Tk()
+window.geometry("420x420")
+button = Button(text='click me',command=click)
+button.pack()
+window.mainloop()
+
+*******************************************************************************
+
+10.Python GUI text area 📒
+-------------------------------------------------------
+# text widget = functions like a text area, you can enter multiple lines of text
+from tkinter import *
+
+def submit():
+    input = text.get("1.0",END)
+    print(input)
+
+window = Tk()
+text = Text(window,
+            bg="light yellow",
+            font=("Ink Free",25),
+            height=8,
+            width=20,
+            padx=20,
+            pady=20,
+            fg="purple")
+text.pack()
+button = Button(window,text="submit",command=submit)
+button.pack()
+window.mainloop()
+
+****************************************************************************
+
+11. Python GUI open a file (filedialog) 📁
+---------------------------------------------
+
+from tkinter import *
+from tkinter import filedialog
+
+def openFile():
+    filepath = filedialog.askopenfilename(initialdir="C:\\Users\\Cakow\\PycharmProjects\\Main",
+                                          title="Open file okay?",
+                                          filetypes= (("text files","*.txt"),
+                                          ("all files","*.*")))
+    file = open(filepath,'r')
+    print(file.read())
+    file.close()
+
+window = Tk()
+button = Button(text="Open",command=openFile)
+button.pack()
+window.mainloop()
+
+************************************************************************
+
+12. Python GUI save a file (filedialog) 💾
+---------------------------------------------------------
+
+from tkinter import *
+from tkinter import filedialog
+
+def saveFile():
+    file = filedialog.asksaveasfile(initialdir="C:\\Users\\Cakow\\PycharmProjects\\Main",
+                                    defaultextension='.txt',
+                                    filetypes=[
+                                        ("Text file",".txt"),
+                                        ("HTML file", ".html"),
+                                        ("All files", ".*"),
+                                    ])
+    if file is None:
+        return
+    filetext = str(text.get(1.0,END))
+    #filetext = input("Enter some text I guess: ") //use this if you want to use console window
+    file.write(filetext)
+    file.close()
+
+window = Tk()
+button = Button(text='save',command=saveFile)
+button.pack()
+text = Text(window)
+text.pack()
+window.mainloop()
+
+************************************************************************
+
+13. Python GUI menubar 🧾
+-----------------------------------------------------------------
+from tkinter import *
+
+def openFile():
+    print("File has been opened!")
+def saveFile():
+    print("File has been saved!")
+def cut():
+    print("You cut some text!")
+def copy():
+    print("You copied some text!")
+def paste():
+    print("You pasted some text!")
+
+window = Tk()
+
+openImage = PhotoImage(file="file.png")
+saveImage = PhotoImage(file="save.png")
+exitImage = PhotoImage(file="exit.png")
+
+menubar = Menu(window)
+window.config(menu=menubar)
+
+fileMenu = Menu(menubar,tearoff=0,font=("MV Boli",15))
+menubar.add_cascade(label="File",menu=fileMenu)
+fileMenu.add_command(label="Open",command=openFile,image=openImage,compound='left')
+fileMenu.add_command(label="Save",command=saveFile,image=saveImage,compound='left')
+fileMenu.add_separator()
+fileMenu.add_command(label="Exit",command=quit,image=exitImage,compound='left')
+
+editMenu = Menu(menubar,tearoff=0,font=("MV Boli",15))
+menubar.add_cascade(label="Edit",menu=editMenu)
+editMenu.add_command(label="Cut",command=cut)
+editMenu.add_command(label="Copy",command=copy)
+editMenu.add_command(label="Paste",command=paste)
+
+window.mainloop()
+
+**********************************************************************************************
+
+14. Python GUI frames ⚰️
+--------------------------------------------------------------------
+# frame = a rectangular container to group and hold widgets
+
+from tkinter import *
+
+window = Tk()
+
+frame = Frame(window,bg="pink",bd=5,relief=SUNKEN)
+frame.pack()
+
+Button(frame,text="W",font=("Consolas",25),width=3).pack(side=TOP)
+Button(frame,text="A",font=("Consolas",25),width=3).pack(side=LEFT)
+Button(frame,text="S",font=("Consolas",25),width=3).pack(side=LEFT)
+Button(frame,text="D",font=("Consolas",25),width=3).pack(side=LEFT)
+
+window.mainloop()
+
+***************************************************************************
+
+15. Python how to: open new window 🗔
+---------------------------------------------------------------
+from tkinter import *
+
+def create_window():
+    new_window = Tk()       #Toplevel() = new window 'on top' of other windows, linked to a 'bottom' window
+                            #Tk() = new independent window
+    #old_window.destroy()   #close out of old window
+
+old_window = Tk()
+
+Button(old_window,text="create new window",command=create_window).pack()
+
+old_window.mainloop()
+
+************************************************************************************
+
+16. Python how to: add window tabs 📑
+-------------------------------------------------------------------
+from tkinter import *
+from tkinter import ttk
+
+window = Tk()
+
+notebook = ttk.Notebook(window) #widget that manages a collection of windows/displays
+
+tab1 = Frame(notebook) #new frame for tab 1
+tab2 = Frame(notebook) #new frame for tab 2
+
+notebook.add(tab1,text="Tab 1")
+notebook.add(tab2,text="Tab 2")
+notebook.pack(expand=True,fill="both")  #expand = expand to fill any space not otherwise used
+                                       #fill = fill space on x and y axis
+Label(tab1,text="Hello, this is tab#1",width=50,height=25).pack()
+Label(tab2,text="Goodbye, this is tab#2",width=50,height=25).pack()
+
+window.mainloop()
+
+*******************************************************************************************
+
+17. Python GUI grid 🏢
+---------------------------------------------------------------------------
+from tkinter import *
+
+#grid() = geometry manager that organizes widgets in a table-like structure in a parent widget
+
+window = Tk()
+
+titleLabel = Label(window,text="Enter your info",font=("Arial",25)).grid(row=0,column=0,columnspan=2)
+
+firstNameLabel = Label(window,text="First name: ",width=20,bg="red").grid(row=1,column=0)
+firstNameEntry = Entry(window).grid(row=1,column=1)
+
+lastNameLabel = Label(window,text="Last name: ",bg="green").grid(row=2,column=0)
+lastNameEntry = Entry(window).grid(row=2,column=1)
+
+emailLabel = Label(window,text="email: ",bg="blue").grid(row=3,column=0)
+emailEntry = Entry(window).grid(row=3,column=1)
+
+submitButton = Button(window,text="Submit").grid(row=4,column=0,columnspan=2)
+
+window.mainloop()
+
+*************************************************************************************************************
+
+
+
+
+
+
+
