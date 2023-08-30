@@ -588,7 +588,7 @@ window.mainloop()
 2. pyinstaller ...
   -F   (all in 1 file)
   -w   (removes terminal window)
-  -i icon.ico  (adds custom icon to .exe)
+  -i icon.ico  (adds custom icon to .exe) # convert the png file into .ico file (ICOCONVERT website)
   clock.py  (name of your main python file)
 
 3. exe is located in the dist folder
